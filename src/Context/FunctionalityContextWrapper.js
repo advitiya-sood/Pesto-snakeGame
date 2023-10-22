@@ -30,10 +30,7 @@ const SNAKE_START = [
 
 function FunctionalityContextWrapper({children}) {
   
-
-
     const snakeCanvas = useRef();
-    // const [canvasContext,setCanvasContext]=useState();
     const [currentScore,setcurrentScore]=useState(0);
     const [snake, setSnake] = useState(SNAKE_START);
     const [food, setFood] = useState(FOOD_START);
@@ -42,6 +39,11 @@ function FunctionalityContextWrapper({children}) {
     const [gameOver, setGameOver] = useState(false);
     const [personalTopScore,setPersonalTopScore]=useState([]);
     const [loggedInUser,setLoggedInUser]=useState();
+
+
+
+
+
   
     const startGame=()=>{
       setSnake(SNAKE_START);
@@ -54,13 +56,12 @@ function FunctionalityContextWrapper({children}) {
     }
   
 
-
-useEffect(()=>{                                                     // to persisist loged in user
-    let activeUser = JSON.parse(localStorage.getItem("Active"));
-    if (activeUser){
-        setLoggedInUser(activeUser)
-    }
-    },[])
+    useEffect(()=>{                                                     // to persist loged in user
+        let activeUser = JSON.parse(localStorage.getItem("Active"));
+        if (activeUser){
+            setLoggedInUser(activeUser)
+        }
+        },[])
 
 
    const snakeMove=(event)=> {
@@ -84,7 +85,6 @@ useEffect(()=>{                                                     // to persis
    }
   
   
-   
   
    const FoodEaten=(newSnake)=>{
   
@@ -122,7 +122,7 @@ useEffect(()=>{                                                     // to persis
   }
   
   
-const handelpersonalTopScore=()=>{                                           // function to handle Persinal top score
+const handelpersonalTopScore=()=>{                                           // function to handle Personal top score
     personalTopScore.push(currentScore)
     personalTopScore.sort().reverse()
      let uniqueList=[...new Set(personalTopScore)]
