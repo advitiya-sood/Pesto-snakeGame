@@ -31,7 +31,7 @@ function Login() {
 
         let localStorageUser = JSON.parse(localStorage.getItem(formInfo.email));
 
-
+// storing users in local storage this logic can be changed with api calls when connected to the apis
         if(!localStorageUser){
             console.log('user doesnt exist');
         }

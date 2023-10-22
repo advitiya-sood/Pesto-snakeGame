@@ -40,7 +40,7 @@ function FunctionalityContextWrapper({children}) {
     const [dir, setDir] = useState([1, 0]);
     const [speed, setSpeed] = useState(null);
     const [gameOver, setGameOver] = useState(false);
-
+    const [personalTopScore,setPersonalTopScore]=useState([]);
     const [loggedInUser,setLoggedInUser]=useState();
   
     const startGame=()=>{
@@ -122,16 +122,30 @@ useEffect(()=>{                                                     // to persis
   }
   
   
-  
+const handelpersonalTopScore=()=>{                                           // function to handle Persinal top score
+    personalTopScore.push(currentScore)
+    personalTopScore.sort().reverse()
+     let uniqueList=[...new Set(personalTopScore)]
+    setPersonalTopScore(uniqueList)
+
+    
+    if (personalTopScore.length>5 && currentScore > personalTopScore[personalTopScore.length-1] ){
+        personalTopScore.pop()
+       setPersonalTopScore(personalTopScore)
+       
+    }
+}
+
   const gameFinish=()=>{
     setSpeed(null);
     setGameOver(true)
+    handelpersonalTopScore()
   }
   
   useInterval(gameWork,speed)
    
   
-  useEffect(()=>{                           //change difficulty based on score
+  useEffect(()=>{                           // change difficulty based on score
     if(currentScore>30){
       setSpeed(SPEED.LEVEL2)
     }
@@ -169,7 +183,8 @@ if (snakeCanvas.current){
         gameOver,
         currentScore,
         loggedInUser,
-        setLoggedInUser
+        setLoggedInUser,
+        personalTopScore
     }
 
   return (

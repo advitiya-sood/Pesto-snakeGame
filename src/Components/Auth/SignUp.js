@@ -25,7 +25,8 @@ function SignUp() {
     const handleSubmit= async (event)=>{
         event.preventDefault();
         
-        localStorage.setItem(formInfo.email, JSON.stringify(formInfo));   // storing users in local storage this logic can be changed with api calls when connected to the apis
+        localStorage.setItem(formInfo.email, JSON.stringify(formInfo));   
+        // storing users in local storage this logic can be changed with api calls when connected to the apis
         navigate("/")
     }
 
