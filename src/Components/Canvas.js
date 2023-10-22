@@ -5,7 +5,6 @@ export default function Canvas() {
 
 const {snakeCanvas,snakeMove,startGame,gameOver,currentScore}= useContext(FunctionalityContext);
 
-
   return (
     <div role='button' tabIndex="0" onKeyDown={(event)=>snakeMove(event)}  
      style={{display:"flex", flexDirection:"column", alignItems:"center",justifyContent:"center"}} >
@@ -17,7 +16,7 @@ const {snakeCanvas,snakeMove,startGame,gameOver,currentScore}= useContext(Functi
           <h3>Score:{currentScore}</h3>
         </div>
         }
-        
+
         <canvas
         style={ gameOver?{display:"none"} : {border:"1px solid black"}}
         width={"700px"}

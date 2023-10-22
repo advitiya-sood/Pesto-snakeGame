@@ -15,6 +15,7 @@ const SNAKE_START = [
     "LEVEL1":500,
     "LEVEL2":300,
     "LEVEL3":100,
+    "LEVEL4":50
   }
   
   const DIRECTIONS = {
@@ -39,6 +40,8 @@ function FunctionalityContextWrapper({children}) {
     const [dir, setDir] = useState([1, 0]);
     const [speed, setSpeed] = useState(null);
     const [gameOver, setGameOver] = useState(false);
+
+    const [loggedInUser,setLoggedInUser]=useState();
   
     const startGame=()=>{
       setSnake(SNAKE_START);
@@ -50,6 +53,16 @@ function FunctionalityContextWrapper({children}) {
     
     }
   
+
+
+useEffect(()=>{                                                     // to persisist loged in user
+    let activeUser = JSON.parse(localStorage.getItem("Active"));
+    if (activeUser){
+        setLoggedInUser(activeUser)
+    }
+    },[])
+
+
    const snakeMove=(event)=> {
     if (event.keyCode>=37 && event.keyCode<=40){
         setDir(DIRECTIONS[event.code])
@@ -117,12 +130,6 @@ function FunctionalityContextWrapper({children}) {
   
   useInterval(gameWork,speed)
    
-  // useEffect(() => {
-  //   let id = setInterval(gameWork, 100);
-  //   return () => clearInterval(id);
-  // },[]);
-  
-  // setInterval(gameWork,1000)
   
   useEffect(()=>{                           //change difficulty based on score
     if(currentScore>30){
@@ -131,19 +138,24 @@ function FunctionalityContextWrapper({children}) {
     else if (currentScore>80){
       setSpeed(SPEED.LEVEL3)
     }
+    else if (currentScore>120)
+        setSpeed(SPEED.LEVEL4)
   },[currentScore])
   
     useEffect(()=>{
-     const canvasContext= snakeCanvas.current.getContext("2d")
-      canvasContext.setTransform(SCALE,0,0,SCALE,0,0)
-      canvasContext.clearRect(0,0,700,600)
-  
-      canvasContext.fillStyle="green"
-      snake.forEach(([x,y])=>canvasContext.fillRect(x,y,1,1))
-      canvasContext.fillStyle="blue"
-      canvasContext.fillRect(food[0],food[1],1,1)
-      
-  
+
+if (snakeCanvas.current){   
+        
+    const canvasContext= snakeCanvas.current.getContext("2d")
+    canvasContext.setTransform(SCALE,0,0,SCALE,0,0)
+    canvasContext.clearRect(0,0,700,600)
+    
+    canvasContext.fillStyle="green"
+    snake.forEach(([x,y])=>canvasContext.fillRect(x,y,1,1))
+    canvasContext.fillStyle="blue"
+    canvasContext.fillRect(food[0],food[1],1,1)
+}
+
     },[food,snake,gameOver])
 
 
@@ -155,7 +167,9 @@ function FunctionalityContextWrapper({children}) {
         startGame,
         snakeMove,
         gameOver,
-        currentScore
+        currentScore,
+        loggedInUser,
+        setLoggedInUser
     }
 
   return (
